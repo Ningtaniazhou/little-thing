@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #fbf7f2;
+  --card: #ffffffcc;
+  --text: #2b2b2b;
+  --muted: #7a746d;
+  --line: #e9e1d8;
+  --warm: #fff8f0;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    "PingFang SC",
+    "Noto Sans CJK SC",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Microsoft YaHei",
+    Arial,
+    sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle radial gradient background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(800px 500px at 25% 15%, rgba(255, 255, 255, 0.8), transparent 60%),
+    radial-gradient(600px 400px at 75% 25%, rgba(255, 248, 240, 0.6), transparent 60%),
+    var(--bg);
+}
