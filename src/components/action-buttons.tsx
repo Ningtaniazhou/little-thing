@@ -42,7 +42,7 @@ export default function ActionButtons({
           borderColor: themeColor,
           color: "#4A4040",
         }}
-        whileHover={{ scale: 1.02, brightness: 1.05 }}
+        whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
         我去做了 ✓
