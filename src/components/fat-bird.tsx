@@ -23,7 +23,7 @@ export default function FatBird({
     animate === "idle"
       ? {
           rotate: [-2, 2, -2],
-          transition: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+          transition: { duration: 2, repeat: Infinity, ease: "easeInOut" as const },
         }
       : animate === "happy"
         ? {
@@ -32,7 +32,7 @@ export default function FatBird({
             transition: {
               duration: 0.5,
               repeat: 3,
-              ease: "easeInOut",
+              ease: "easeInOut" as const,
             },
           }
         : {};
