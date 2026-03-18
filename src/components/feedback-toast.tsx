@@ -3,14 +3,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 
 const FEEDBACK_MESSAGES = [
-  "做得很好。",
-  "一点点也算前进。",
-  "你已经在照顾自己了。",
   "世界在慢慢向你打开。",
-  "今天的你很勇敢。",
-  "这就够了。",
-  "小肥鸟为你感到骄傲！",
-  "每一件小事都有意义。",
+  "一点点也算前进。",
+  "小肥鸟为你骄傲！",
+  "看，你做到了。",
+  "这一刻值得记住。",
+  "你比想象中更行。",
+  "给自己鼓个掌吧。",
+  "每一步都算数。",
 ];
 
 interface FeedbackToastProps {

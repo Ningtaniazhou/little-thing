@@ -1,36 +1,48 @@
 // Theme color configuration for each task category
-// Each theme defines egg color, accent color, and accessory type for the fat bird
 
 export type ThemeKey =
-  | "文学"
+  | "读诗"
+  | "读书"
   | "艺术"
   | "写作"
   | "音乐"
-  | "放松"
-  | "好奇心"
-  | "生活"
-  | "家庭"
+  | "冥想"
+  | "身体"
+  | "探索"
+  | "自然"
+  | "整理"
+  | "饮食"
   | "学习"
-  | "学术"
-  | "帮助";
+  | "善意"
+  | "手工"
+  | "生活"
+  | "惊喜";
 
 export interface ThemeConfig {
   key: ThemeKey;
   label: string;
-  eggColor: string; // main egg shell color
-  eggColorDark: string; // darker shade for egg details
-  accent: string; // accent color for bird accessory
-  accessory: string; // accessory type identifier
+  eggColor: string;
+  eggColorDark: string;
+  accent: string;
+  accessory: string;
 }
 
 export const themes: Record<string, ThemeConfig> = {
-  文学: {
-    key: "文学",
-    label: "Literature",
+  读诗: {
+    key: "读诗",
+    label: "Poetry",
     eggColor: "#E8DFF5",
     eggColorDark: "#C9B8E8",
     accent: "#9B7DC8",
     accessory: "scarf",
+  },
+  读书: {
+    key: "读书",
+    label: "Reading",
+    eggColor: "#D7CCC8",
+    eggColorDark: "#BCAAA4",
+    accent: "#795548",
+    accessory: "bookmark",
   },
   艺术: {
     key: "艺术",
@@ -56,37 +68,53 @@ export const themes: Record<string, ThemeConfig> = {
     accent: "#E57498",
     accessory: "headphones",
   },
-  放松: {
-    key: "放松",
-    label: "Relaxation",
+  冥想: {
+    key: "冥想",
+    label: "Meditation",
     eggColor: "#D5F5E3",
     eggColorDark: "#A9DFBF",
     accent: "#58B075",
     accessory: "leaf",
   },
-  好奇心: {
-    key: "好奇心",
-    label: "Curiosity",
+  身体: {
+    key: "身体",
+    label: "Body",
+    eggColor: "#FCE4EC",
+    eggColorDark: "#F48FB1",
+    accent: "#E91E63",
+    accessory: "sweatband",
+  },
+  探索: {
+    key: "探索",
+    label: "Explore",
     eggColor: "#FEF9E7",
     eggColorDark: "#F9E79F",
     accent: "#D4AC0D",
     accessory: "star",
   },
-  生活: {
-    key: "生活",
-    label: "Life",
+  自然: {
+    key: "自然",
+    label: "Nature",
+    eggColor: "#E8F5E9",
+    eggColorDark: "#A5D6A7",
+    accent: "#4CAF50",
+    accessory: "sprout",
+  },
+  整理: {
+    key: "整理",
+    label: "Tidy",
     eggColor: "#FDEBD0",
     eggColorDark: "#F5CBA7",
     accent: "#CA8944",
     accessory: "apron",
   },
-  家庭: {
-    key: "家庭",
-    label: "Family",
-    eggColor: "#FDEDEC",
-    eggColorDark: "#F5B7B1",
-    accent: "#E74C5E",
-    accessory: "heart",
+  饮食: {
+    key: "饮食",
+    label: "Food",
+    eggColor: "#FFF3E0",
+    eggColorDark: "#FFCC80",
+    accent: "#FF9800",
+    accessory: "chef",
   },
   学习: {
     key: "学习",
@@ -96,29 +124,44 @@ export const themes: Record<string, ThemeConfig> = {
     accent: "#4A6FA5",
     accessory: "glasses",
   },
-  学术: {
-    key: "学术",
-    label: "Academic",
-    eggColor: "#D4E6F1",
-    eggColorDark: "#A9CCE3",
-    accent: "#4A6FA5",
-    accessory: "glasses",
-  },
-  帮助: {
-    key: "帮助",
-    label: "Helping",
+  善意: {
+    key: "善意",
+    label: "Kindness",
     eggColor: "#F5CBA7",
     eggColorDark: "#E8B480",
     accent: "#D68040",
     accessory: "wings-glow",
   },
+  手工: {
+    key: "手工",
+    label: "Craft",
+    eggColor: "#F3E5F5",
+    eggColorDark: "#CE93D8",
+    accent: "#9C27B0",
+    accessory: "scissors",
+  },
+  生活: {
+    key: "生活",
+    label: "Life",
+    eggColor: "#ECEFF1",
+    eggColorDark: "#B0BEC5",
+    accent: "#607D8B",
+    accessory: "calendar",
+  },
+  惊喜: {
+    key: "惊喜",
+    label: "Surprise",
+    eggColor: "rainbow",
+    eggColorDark: "rainbow",
+    accent: "#FF6F61",
+    accessory: "sparkle",
+  },
 };
 
-// Get theme for a category, with fallback
 export function getTheme(category: string): ThemeConfig {
   return (
     themes[category] ?? {
-      key: "放松" as ThemeKey,
+      key: "冥想" as ThemeKey,
       label: "Default",
       eggColor: "#D5F5E3",
       eggColorDark: "#A9DFBF",

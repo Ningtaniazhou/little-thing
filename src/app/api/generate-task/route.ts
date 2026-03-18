@@ -1,24 +1,33 @@
-// API Route: Generate a task via LLM with local fallback
 import { NextResponse } from "next/server";
 import { getProvider } from "@/lib/llm/adapter";
 import { getRandomTask } from "@/lib/tasks";
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
+    let categories: string[] | undefined;
+    try {
+      const body = await request.json();
+      if (Array.isArray(body.categories) && body.categories.length > 0) {
+        categories = body.categories;
+      }
+    } catch {
+      // no body or invalid JSON — use all categories
+    }
+
     const provider = await getProvider();
 
     if (provider) {
       try {
         const task = await provider.generateTask();
-        return NextResponse.json({ task, source: "llm" });
+        if (!categories || categories.includes(task.category)) {
+          return NextResponse.json({ task, source: "llm" });
+        }
       } catch (error) {
         console.error("LLM generation failed, falling back:", error);
-        // Fall through to local fallback
       }
     }
 
-    // Fallback to local task pool
-    const task = getRandomTask();
+    const task = getRandomTask(categories);
     return NextResponse.json({ task, source: "local" });
   } catch (error) {
     console.error("Task generation error:", error);

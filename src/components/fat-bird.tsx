@@ -17,7 +17,10 @@ export default function FatBird({
   className = "",
   animate = "none",
 }: FatBirdProps) {
-  const scale = size / 200;
+  const vbX = 18;
+  const vbW = 200 - vbX;
+  const vbH = 230;
+  const scale = size / vbW;
 
   const idleAnimation =
     animate === "idle"
@@ -95,13 +98,13 @@ export default function FatBird({
   return (
     <motion.div
       className={className}
-      style={{ width: size, height: size * 1.15 }}
+      style={{ width: size, height: Math.round(vbH * scale) }}
       animate={idleAnimation}
     >
       <svg
-        viewBox="0 0 200 230"
-        width={200 * scale}
-        height={230 * scale}
+        viewBox={`${vbX} 0 ${vbW} ${vbH}`}
+        width={size}
+        height={Math.round(vbH * scale)}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -293,6 +296,88 @@ export default function FatBird({
           <g>
             <ellipse cx="32" cy="98" rx="20" ry="14" fill={accent} opacity="0.2" transform="rotate(-10 32 98)" />
             <ellipse cx="168" cy="98" rx="20" ry="14" fill={accent} opacity="0.2" transform="rotate(10 168 98)" />
+          </g>
+        )}
+
+        {accessory === "bookmark" && (
+          <g>
+            <rect x="130" y="34" width="12" height="40" rx="2" fill={accent} opacity="0.85" />
+            <path d="M130 74 L136 66 L142 74" fill={accent} opacity="0.85" />
+            <rect x="132" y="40" width="8" height="3" rx="1" fill="white" opacity="0.3" />
+          </g>
+        )}
+
+        {accessory === "sweatband" && (
+          <g>
+            <path d="M42 70 Q100 58 158 70" stroke={accent} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <path d="M42 70 Q100 58 158 70" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.3" />
+          </g>
+        )}
+
+        {accessory === "sprout" && (
+          <g>
+            <line x1="100" y1="38" x2="100" y2="20" stroke="#6B8E5A" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M100 25 Q90 12 80 18 Q88 28 100 25" fill={accent} opacity="0.9" />
+            <path d="M100 20 Q110 8 120 14 Q112 24 100 20" fill={accent} opacity="0.75" />
+          </g>
+        )}
+
+        {accessory === "chef" && (
+          <g>
+            <ellipse cx="100" cy="30" rx="32" ry="10" fill="white" stroke="#E8E0D6" strokeWidth="1.5" />
+            <ellipse cx="100" cy="22" rx="24" ry="14" fill="white" stroke="#E8E0D6" strokeWidth="1" />
+            <ellipse cx="92" cy="18" rx="10" ry="9" fill="white" />
+            <ellipse cx="108" cy="18" rx="10" ry="9" fill="white" />
+            <ellipse cx="100" cy="14" rx="8" ry="7" fill="white" />
+          </g>
+        )}
+
+        {accessory === "scissors" && (
+          <g>
+            <circle cx="128" cy="56" r="7" fill="none" stroke={accent} strokeWidth="2.5" />
+            <circle cx="142" cy="68" r="7" fill="none" stroke={accent} strokeWidth="2.5" />
+            <line x1="125" y1="62" x2="145" y2="74" stroke={accent} strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="131" y1="62" x2="139" y2="62" stroke={accent} strokeWidth="2.5" strokeLinecap="round" />
+          </g>
+        )}
+
+        {accessory === "calendar" && (
+          <g>
+            <rect x="125" y="52" width="28" height="24" rx="4" fill="white" stroke={accent} strokeWidth="2" />
+            <rect x="125" y="52" width="28" height="8" rx="4" fill={accent} opacity="0.8" />
+            <circle cx="133" cy="49" r="2" fill={accent} />
+            <circle cx="145" cy="49" r="2" fill={accent} />
+            <text x="139" y="72" textAnchor="middle" fontSize="10" fill={accent} fontWeight="700" fontFamily="system-ui">14</text>
+          </g>
+        )}
+
+        {accessory === "sparkle" && (
+          <g>
+            {/* Rainbow crown / tiara */}
+            <defs>
+              <linearGradient id="sparkleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#FF9AA2" />
+                <stop offset="20%" stopColor="#FFDAC1" />
+                <stop offset="40%" stopColor="#FFFFD8" />
+                <stop offset="60%" stopColor="#B5EAD7" />
+                <stop offset="80%" stopColor="#C7CEEA" />
+                <stop offset="100%" stopColor="#E2B0FF" />
+              </linearGradient>
+            </defs>
+            {/* Crown base */}
+            <path d="M68 44 L76 22 L88 38 L100 18 L112 38 L124 22 L132 44 Z" fill="url(#sparkleGrad)" stroke="white" strokeWidth="1.5" />
+            {/* Jewels on crown points */}
+            <circle cx="76" cy="22" r="3" fill="#FFD700" />
+            <circle cx="100" cy="18" r="4" fill="#FF6F61" />
+            <circle cx="124" cy="22" r="3" fill="#FFD700" />
+            {/* Floating sparkles around the bird */}
+            <path d="M42 52 l2 4 4 0.5 -3 3 0.5 4.5 -3.5-2 -3.5 2 0.5-4.5 -3-3 4-0.5z" fill="#FFD700" opacity="0.7" />
+            <path d="M158 48 l1.5 3 3 0.4 -2.2 2.2 0.4 3 -2.7-1.4 -2.7 1.4 0.4-3 -2.2-2.2 3-0.4z" fill="#FF9AA2" opacity="0.7" />
+            <path d="M50 130 l1 2 2.5 0.3 -1.8 1.8 0.3 2.5 -2-1.1 -2 1.1 0.3-2.5 -1.8-1.8 2.5-0.3z" fill="#B5EAD7" opacity="0.6" />
+            <path d="M152 125 l1 2 2.5 0.3 -1.8 1.8 0.3 2.5 -2-1.1 -2 1.1 0.3-2.5 -1.8-1.8 2.5-0.3z" fill="#C7CEEA" opacity="0.6" />
+            {/* Cheek sparkle highlights */}
+            <circle cx="62" cy={faceY + 8} r="2" fill="#FFD700" opacity="0.5" />
+            <circle cx="138" cy={faceY + 8} r="2" fill="#FFD700" opacity="0.5" />
           </g>
         )}
       </svg>

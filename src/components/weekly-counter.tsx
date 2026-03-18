@@ -8,7 +8,7 @@ interface WeeklyCounterProps {
 
 export default function WeeklyCounter({ count }: WeeklyCounterProps) {
   return (
-    <div className="flex w-full max-w-[360px] items-center justify-between px-2 text-xs text-[#A09888]">
+    <div className="flex w-full max-w-[380px] items-center justify-between px-2 text-xs text-[#A09888]">
       <div className="flex items-center gap-1">
         本周完成：
         <motion.span

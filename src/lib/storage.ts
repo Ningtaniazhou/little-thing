@@ -1,4 +1,4 @@
-// localStorage utilities for tracking weekly completion
+// localStorage utilities for tracking weekly completion and category preferences
 
 function getWeekKey(): string {
   const d = new Date();
@@ -17,4 +17,23 @@ export function incrementWeekCount(): number {
   const n = getWeekCount() + 1;
   localStorage.setItem(getWeekKey(), String(n));
   return n;
+}
+
+const CATEGORY_KEY = "jiujiu_selected_categories";
+
+export function saveCategories(cats: string[]): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(CATEGORY_KEY, JSON.stringify(cats));
+}
+
+export function loadCategories(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(CATEGORY_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
 }

@@ -36,7 +36,7 @@ export class OpenAIProvider implements LLMProvider {
 
     return {
       id: Date.now(),
-      category: parsed.category || "放松",
+      category: parsed.category || "冥想",
       text: parsed.text || "对自己说一句温柔的话。",
       minutes: parsed.minutes || "2–5",
       soft: parsed.soft || "你已经很棒了。",

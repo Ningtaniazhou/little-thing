@@ -8,13 +8,21 @@ import Egg from "@/components/egg";
 import TaskBubble from "@/components/task-bubble";
 import ActionButtons from "@/components/action-buttons";
 import WeeklyCounter from "@/components/weekly-counter";
+import CategorySelector from "@/components/category-selector";
 import FeedbackToast, { getRandomFeedback } from "@/components/feedback-toast";
 import { getTheme } from "@/lib/themes";
 import { getRandomTask } from "@/lib/tasks";
-import { getWeekCount, incrementWeekCount } from "@/lib/storage";
+import {
+  getWeekCount,
+  incrementWeekCount,
+  saveCategories,
+  loadCategories,
+} from "@/lib/storage";
 import type { Task } from "@/lib/llm/types";
 
-type AppState = "idle" | "shaking" | "egg-out" | "hatching" | "task-shown" | "done";
+const SURPRISE_PROBABILITY = 0.08;
+
+type AppState = "idle" | "shaking" | "egg-out" | "task-shown" | "done";
 
 export default function Home() {
   const [state, setState] = useState<AppState>("idle");
@@ -23,67 +31,69 @@ export default function Home() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  // Initialize week count from localStorage
   useEffect(() => {
     setWeekCount(getWeekCount());
+    setSelectedCategories(loadCategories());
+  }, []);
+
+  const handleCategoryChange = useCallback((cats: string[]) => {
+    setSelectedCategories(cats);
+    saveCategories(cats);
   }, []);
 
   const theme = task ? getTheme(task.category) : null;
+  const isSurprise = task?.category === "惊喜";
 
-  // Fetch a task - try API first, fallback to local
-  const fetchTask = useCallback(async (): Promise<Task> => {
+  const fetchTask = useCallback(async (categories: string[]): Promise<Task> => {
+    if (Math.random() < SURPRISE_PROBABILITY) {
+      return getRandomTask(["惊喜"]);
+    }
+
     try {
-      const res = await fetch("/api/generate-task", { method: "POST" });
+      const res = await fetch("/api/generate-task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ categories }),
+      });
       if (res.ok) {
         const data = await res.json();
         return data.task;
       }
     } catch {
-      // Silently fall back to local
+      // fall back to local
     }
-    return getRandomTask();
+    return getRandomTask(categories.length > 0 ? categories : undefined);
   }, []);
 
-  // Main action: twist the gashapon
   const handleTwist = useCallback(async () => {
     if (loading) return;
 
     setLoading(true);
     setState("shaking");
 
-    // Start fetching task in parallel with animation
-    const taskPromise = fetchTask();
+    const taskPromise = fetchTask(selectedCategories);
 
-    // Shaking animation: 1s
-    await sleep(1000);
+    await sleep(1600);
     setState("egg-out");
 
-    // Wait for task data
     const newTask = await taskPromise;
     setTask(newTask);
 
-    // Egg rolls out and bounces: 2s (let user see the colored egg)
-    await sleep(2000);
-    setState("hatching");
-
-    // Egg wobbles and cracks: 1.2s
-    await sleep(1200);
+    await sleep(2800);
     setState("task-shown");
 
     setLoading(false);
-  }, [fetchTask, loading]);
+  }, [fetchTask, loading, selectedCategories]);
 
-  // Swap: get a new egg
   const handleSwap = useCallback(async () => {
     setState("idle");
     setTask(null);
-    // Small delay then auto-twist
     await sleep(300);
     handleTwist();
   }, [handleTwist]);
 
-  // Done: mark task complete
   const handleDone = useCallback(() => {
     setState("done");
     const n = incrementWeekCount();
@@ -93,7 +103,6 @@ export default function Home() {
     setToastMessage(msg);
     setShowToast(true);
 
-    // Reset after celebration
     setTimeout(() => {
       setShowToast(false);
       setTimeout(() => {
@@ -103,12 +112,14 @@ export default function Home() {
     }, 2500);
   }, []);
 
+  const isIdle = state === "idle" || state === "shaking";
+
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center px-4 py-8">
+    <div className="flex min-h-svh flex-col items-center px-4 pt-[12vh]">
       <div className="flex w-full max-w-[420px] flex-col items-center gap-4">
-        {/* Header */}
+        {/* Header — always in the same position */}
         <motion.div
-          className="mb-2 text-center"
+          className="text-center"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -116,19 +127,17 @@ export default function Home() {
           <h1 className="mb-1 text-2xl font-semibold text-[#5C5347]">
             啾啾小事
           </h1>
-          <p className="text-sm text-[#A09888]">
-            你可以轻松做到。
-          </p>
+          <p className="text-sm text-[#A09888]">你可以轻松做到 ❤️</p>
         </motion.div>
 
-        {/* Main interaction area */}
-        <div className="relative flex min-h-[420px] w-full flex-col items-center justify-center">
+        {/* Main interaction area — fixed height to prevent layout shift */}
+        <div className="relative flex h-[440px] w-full flex-col items-center justify-center">
           <AnimatePresence mode="wait">
             {/* IDLE: Show gashapon machine */}
-            {(state === "idle" || state === "shaking") && (
+            {isIdle && (
               <motion.div
                 key="machine"
-                className="flex flex-col items-center gap-4"
+                className="flex flex-col items-center gap-3"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
@@ -138,17 +147,17 @@ export default function Home() {
                   <GashaponMachine
                     shaking={state === "shaking"}
                     onHandleClick={handleTwist}
+                    selectedCategories={selectedCategories}
                   />
-                  {/* Bird standing next to machine */}
-                  <div className="absolute -right-6 bottom-4">
-                    <FatBird size={72} animate="idle" />
+                  <div className="absolute -right-14 bottom-3">
+                    <FatBird size={88} animate="idle" />
                   </div>
                 </div>
 
                 <motion.button
                   onClick={handleTwist}
                   disabled={loading}
-                  className="mt-2 cursor-pointer rounded-full border-2 border-[#F0A882] bg-white px-8 py-3 text-base font-medium text-[#C4784A] shadow-md transition-all hover:bg-[#FFF8F0] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="cursor-pointer rounded-full border-2 border-[#F0A882] bg-white px-8 py-3 text-base font-medium text-[#C4784A] shadow-md transition-all hover:bg-[#FFF8F0] disabled:cursor-not-allowed disabled:opacity-50"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -157,53 +166,35 @@ export default function Home() {
               </motion.div>
             )}
 
-            {/* EGG OUT: Egg rolling out with bounce */}
+            {/* EGG OUT — drops in, pauses, wobbles, then shrinks away */}
             {state === "egg-out" && theme && (
               <motion.div
                 key="egg-out"
                 className="flex flex-col items-center"
                 initial={{ opacity: 0, y: -80, rotate: -15 }}
                 animate={{
-                  opacity: 1,
-                  y: [null, 10, -6, 3, 0],
-                  rotate: [null, 5, -3, 1, 0],
+                  opacity: [0, 1, 1, 1, 1, 1, 0],
+                  y: [-80, 10, -6, 0, 0, 0, 0],
+                  rotate: [-15, 5, -3, 0, -5, 5, 0],
+                  scale: [1, 1, 1, 1, 1.05, 1.08, 0],
                 }}
-                exit={{ opacity: 0, scale: 0.95 }}
+                exit={{ opacity: 0 }}
                 transition={{
-                  duration: 1,
-                  ease: "easeOut",
-                  y: { duration: 1, times: [0, 0.4, 0.6, 0.8, 1] },
+                  duration: 3.2,
+                  times: [0, 0.25, 0.32, 0.38, 0.75, 0.88, 1],
+                  ease: "easeInOut",
                 }}
               >
                 <Egg
                   color={theme.eggColor}
                   colorDark={theme.eggColorDark}
                   size={160}
+                  rainbow={isSurprise}
                 />
               </motion.div>
             )}
 
-            {/* HATCHING: Egg wobbles then cracks */}
-            {state === "hatching" && theme && (
-              <motion.div
-                key="hatching"
-                className="flex flex-col items-center"
-                initial={{ scale: 1, rotate: 0 }}
-                animate={{
-                  scale: [1, 1.05, 0.98, 1.08, 1.02, 1.12, 0],
-                  rotate: [0, -4, 4, -6, 6, -3, 0],
-                }}
-                transition={{ duration: 1.2, ease: "easeInOut" }}
-              >
-                <Egg
-                  color={theme.eggColor}
-                  colorDark={theme.eggColorDark}
-                  size={160}
-                />
-              </motion.div>
-            )}
-
-            {/* TASK SHOWN: Bird + bubble + buttons */}
+            {/* TASK SHOWN */}
             {(state === "task-shown" || state === "done") && task && theme && (
               <motion.div
                 key="task-shown"
@@ -213,10 +204,8 @@ export default function Home() {
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Task bubble */}
-                <TaskBubble task={task} themeColor={theme.eggColor} />
+                <TaskBubble task={task} themeColor={theme.eggColor} isSurprise={isSurprise} />
 
-                {/* Fat bird */}
                 <motion.div
                   initial={{ opacity: 0, y: 30, scale: 0 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -235,7 +224,6 @@ export default function Home() {
                   />
                 </motion.div>
 
-                {/* Action buttons */}
                 {state === "task-shown" && (
                   <ActionButtons
                     onSwap={handleSwap}
@@ -249,6 +237,20 @@ export default function Home() {
           </AnimatePresence>
         </div>
 
+        {/* Category selector — opacity-controlled to preserve layout space */}
+        <div
+          className="flex w-full justify-center transition-opacity duration-300"
+          style={{
+            opacity: isIdle ? 1 : 0,
+            pointerEvents: isIdle ? "auto" : "none",
+          }}
+        >
+          <CategorySelector
+            selected={selectedCategories}
+            onChange={handleCategoryChange}
+          />
+        </div>
+
         {/* Weekly counter */}
         <WeeklyCounter count={weekCount} />
       </div>
@@ -259,7 +261,6 @@ export default function Home() {
   );
 }
 
-// Simple sleep helper
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
