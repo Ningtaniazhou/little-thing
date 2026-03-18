@@ -275,15 +275,15 @@ export default function FatBird({
         {accessory === "duster" && (
           <g>
             {/* Handle — held by left wing */}
-            <line x1="24" y1="98" x2="8" y2="52" stroke={accent} strokeWidth="4" strokeLinecap="round" />
+            <line x1="42" y1="98" x2="28" y2="54" stroke={accent} strokeWidth="4" strokeLinecap="round" />
             {/* Feathers — fluffy top */}
-            <ellipse cx="6" cy="44" rx="10" ry="8" fill={accent} opacity="0.35" transform="rotate(-15 6 44)" />
-            <ellipse cx="10" cy="38" rx="9" ry="7" fill={accent} opacity="0.3" transform="rotate(10 10 38)" />
-            <ellipse cx="2" cy="50" rx="8" ry="6" fill={accent} opacity="0.25" transform="rotate(-20 2 50)" />
-            <ellipse cx="14" cy="46" rx="7" ry="6" fill={accent} opacity="0.25" transform="rotate(15 14 46)" />
-            <ellipse cx="8" cy="32" rx="8" ry="6" fill={accent} opacity="0.3" transform="rotate(5 8 32)" />
+            <ellipse cx="26" cy="46" rx="10" ry="8" fill={accent} opacity="0.35" transform="rotate(-15 26 46)" />
+            <ellipse cx="30" cy="40" rx="9" ry="7" fill={accent} opacity="0.3" transform="rotate(10 30 40)" />
+            <ellipse cx="22" cy="52" rx="8" ry="6" fill={accent} opacity="0.25" transform="rotate(-20 22 52)" />
+            <ellipse cx="34" cy="48" rx="7" ry="6" fill={accent} opacity="0.25" transform="rotate(15 34 48)" />
+            <ellipse cx="28" cy="34" rx="8" ry="6" fill={accent} opacity="0.3" transform="rotate(5 28 34)" />
             {/* Handle ring */}
-            <circle cx="20" cy="62" r="3" fill="none" stroke={accent} strokeWidth="1.5" opacity="0.6" />
+            <circle cx="40" cy="64" r="3" fill="none" stroke={accent} strokeWidth="1.5" opacity="0.6" />
           </g>
         )}
 

@@ -15,6 +15,11 @@ export default function ActionButtons({
   themeColor = "#D5F5E3",
   disabled = false,
 }: ActionButtonsProps) {
+  const isSurprise = themeColor === "rainbow";
+  const doneBackground = isSurprise
+    ? "linear-gradient(135deg, #FF8FB1 0%, #FFB980 22%, #FFE08A 42%, #97D6A3 62%, #8FC7FF 82%, #C6A2FF 100%)"
+    : themeColor;
+
   return (
     <motion.div
       className="flex w-full max-w-[380px] gap-3"
@@ -36,11 +41,11 @@ export default function ActionButtons({
       <motion.button
         onClick={onDone}
         disabled={disabled}
-        className="flex-1 cursor-pointer rounded-2xl border-2 px-4 py-3.5 text-[15px] font-medium text-white shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex-1 cursor-pointer rounded-2xl px-4 py-3.5 text-[15px] font-medium text-white shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50"
         style={{
-          background: themeColor,
-          borderColor: themeColor,
-          color: "#4A4040",
+          background: doneBackground,
+          border: "none",
+          color: isSurprise ? "#4D3A3A" : "#4A4040",
         }}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}

@@ -10,6 +10,7 @@ import ActionButtons from "@/components/action-buttons";
 import WeeklyCounter from "@/components/weekly-counter";
 import CategorySelector from "@/components/category-selector";
 import FeedbackToast, { getRandomFeedback } from "@/components/feedback-toast";
+import BackgroundMusic from "@/components/background-music";
 import { getTheme } from "@/lib/themes";
 import { getRandomTask } from "@/lib/tasks";
 import {
@@ -130,6 +131,7 @@ export default function Home() {
             啾啾小事
           </h1>
           <p className="text-sm text-[#A09888]">你可以轻松做到 ❤️</p>
+          <BackgroundMusic />
         </motion.div>
 
         {/* Main interaction area — fixed height to prevent layout shift */}
