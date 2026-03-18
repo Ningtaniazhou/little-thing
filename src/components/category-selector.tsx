@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { themes, type ThemeKey } from "@/lib/themes";
 
@@ -13,13 +12,18 @@ const NORMAL_CATEGORIES: ThemeKey[] = [
 interface CategorySelectorProps {
   selected: string[];
   onChange: (categories: string[]) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  visible?: boolean;
 }
 
 export default function CategorySelector({
   selected,
   onChange,
+  open,
+  onOpenChange,
+  visible = true,
 }: CategorySelectorProps) {
-  const [open, setOpen] = useState(false);
 
   const allSelected = selected.length === 0;
 
@@ -34,37 +38,24 @@ export default function CategorySelector({
   const selectAll = () => onChange([]);
 
   return (
-    <div className="w-full max-w-[380px]">
-      <motion.button
-        onClick={() => setOpen(!open)}
-        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-[#E9E1D8] bg-white/80 px-4 py-2.5 text-sm text-[#5C5347] shadow-sm backdrop-blur-sm transition-colors hover:bg-white"
-        whileTap={{ scale: 0.98 }}
-      >
-        <span className="text-base">🥚</span>
-        <span>
-          {allSelected
-            ? "挑选你想要的小事种类"
-            : `已选 ${selected.length} 种蛋`}
-        </span>
-        <motion.span
-          animate={{ rotate: open ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="text-xs text-[#A09888]"
-        >
-          ▼
-        </motion.span>
-      </motion.button>
-
+    <div
+      className="relative w-full max-w-[260px] transition-opacity duration-300"
+      style={{
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? "auto" : "none",
+      }}
+    >
+      {/* Dropdown panel — positioned above the button, doesn't affect layout flow */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, y: 10, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.97 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden"
+            className="absolute bottom-full left-0 right-0 z-10 mb-2"
           >
-            <div className="mt-2 rounded-2xl border-2 border-[#E9E1D8] bg-white/90 p-4 shadow-sm backdrop-blur-sm">
+            <div className="rounded-2xl border-2 border-[#E9E1D8] bg-white/95 p-4 shadow-lg backdrop-blur-sm">
               {/* Select all / random toggle */}
               <motion.button
                 onClick={selectAll}
@@ -118,7 +109,6 @@ export default function CategorySelector({
                       whileHover={{ scale: 1.04 }}
                       whileTap={{ scale: 0.96 }}
                     >
-                      {/* Mini egg icon */}
                       <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
                         <ellipse
                           cx="10"
@@ -146,6 +136,27 @@ export default function CategorySelector({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Toggle button — always in document flow */}
+      <motion.button
+        onClick={() => onOpenChange(!open)}
+        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-[#E9E1D8] bg-white/80 px-4 py-2.5 text-sm text-[#5C5347] shadow-sm backdrop-blur-sm transition-colors hover:bg-white"
+        whileTap={{ scale: 0.98 }}
+      >
+        <span className="text-base">🥚</span>
+        <span>
+          {allSelected
+            ? "挑选你想要的小事种类"
+            : `已选 ${selected.length} 种蛋`}
+        </span>
+        <motion.span
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="text-xs text-[#A09888]"
+        >
+          ▼
+        </motion.span>
+      </motion.button>
     </div>
   );
 }

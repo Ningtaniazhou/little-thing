@@ -231,11 +231,18 @@ export default function FatBird({
           </g>
         )}
 
-        {accessory === "bowtie" && (
+        {accessory === "pencil" && (
           <g>
-            <path d={`M88 ${faceY + 26} L80 ${faceY + 18} L80 ${faceY + 34} Z`} fill={accent} opacity="0.9" />
-            <path d={`M112 ${faceY + 26} L120 ${faceY + 18} L120 ${faceY + 34} Z`} fill={accent} opacity="0.9" />
-            <circle cx="100" cy={faceY + 26} r="4" fill={accent} />
+            {/* Pencil body held by right wing — angled */}
+            <line x1="170" y1="72" x2="190" y2="112" stroke={accent} strokeWidth="5" strokeLinecap="round" />
+            {/* Pencil wood tip */}
+            <line x1="190" y1="112" x2="194" y2="122" stroke="#F5CBA7" strokeWidth="4" strokeLinecap="round" />
+            {/* Pencil point */}
+            <line x1="194" y1="122" x2="196" y2="128" stroke="#333" strokeWidth="2" strokeLinecap="round" />
+            {/* Eraser */}
+            <line x1="170" y1="72" x2="167" y2="66" stroke="#F4A6A0" strokeWidth="5" strokeLinecap="round" />
+            {/* Metal band */}
+            <line x1="169" y1="69" x2="171" y2="74" stroke="#C0C0C0" strokeWidth="6" strokeLinecap="butt" />
           </g>
         )}
 
@@ -265,10 +272,18 @@ export default function FatBird({
           </g>
         )}
 
-        {accessory === "apron" && (
+        {accessory === "duster" && (
           <g>
-            <path d="M68 120 Q100 112 132 120 L128 160 Q100 166 72 160 Z" fill={accent} opacity="0.25" stroke={accent} strokeWidth="2" />
-            <rect x="88" y="128" width="24" height="18" rx="4" fill={accent} opacity="0.3" stroke={accent} strokeWidth="1.5" />
+            {/* Handle — held by left wing */}
+            <line x1="24" y1="98" x2="8" y2="52" stroke={accent} strokeWidth="4" strokeLinecap="round" />
+            {/* Feathers — fluffy top */}
+            <ellipse cx="6" cy="44" rx="10" ry="8" fill={accent} opacity="0.35" transform="rotate(-15 6 44)" />
+            <ellipse cx="10" cy="38" rx="9" ry="7" fill={accent} opacity="0.3" transform="rotate(10 10 38)" />
+            <ellipse cx="2" cy="50" rx="8" ry="6" fill={accent} opacity="0.25" transform="rotate(-20 2 50)" />
+            <ellipse cx="14" cy="46" rx="7" ry="6" fill={accent} opacity="0.25" transform="rotate(15 14 46)" />
+            <ellipse cx="8" cy="32" rx="8" ry="6" fill={accent} opacity="0.3" transform="rotate(5 8 32)" />
+            {/* Handle ring */}
+            <circle cx="20" cy="62" r="3" fill="none" stroke={accent} strokeWidth="1.5" opacity="0.6" />
           </g>
         )}
 
@@ -292,18 +307,43 @@ export default function FatBird({
           </g>
         )}
 
-        {accessory === "wings-glow" && (
+        {accessory === "heart" && (
           <g>
-            <ellipse cx="32" cy="98" rx="20" ry="14" fill={accent} opacity="0.2" transform="rotate(-10 32 98)" />
-            <ellipse cx="168" cy="98" rx="20" ry="14" fill={accent} opacity="0.2" transform="rotate(10 168 98)" />
+            {/* Heart on the bird's chest */}
+            <path
+              d="M100 125 C96 117 84 115 84 123 C84 131 100 142 100 142 C100 142 116 131 116 123 C116 115 104 117 100 125 Z"
+              fill={accent}
+              opacity="0.6"
+            />
+            <path
+              d="M100 125 C96 117 84 115 84 123 C84 131 100 142 100 142 C100 142 116 131 116 123 C116 115 104 117 100 125 Z"
+              fill="none"
+              stroke={accent}
+              strokeWidth="1.5"
+              opacity="0.8"
+            />
           </g>
         )}
 
-        {accessory === "bookmark" && (
+        {accessory === "open-book" && (
           <g>
-            <rect x="130" y="34" width="12" height="40" rx="2" fill={accent} opacity="0.85" />
-            <path d="M130 74 L136 66 L142 74" fill={accent} opacity="0.85" />
-            <rect x="132" y="40" width="8" height="3" rx="1" fill="white" opacity="0.3" />
+            {/* Book cover — inverted V tent shape, spine on top */}
+            {/* Left cover */}
+            <path d="M100 22 L62 42 L62 34 L100 14 Z" fill={accent} opacity="0.8" stroke={accent} strokeWidth="1" strokeLinejoin="round" />
+            {/* Right cover */}
+            <path d="M100 22 L138 42 L138 34 L100 14 Z" fill={accent} opacity="0.8" stroke={accent} strokeWidth="1" strokeLinejoin="round" />
+            {/* Inner pages visible — left */}
+            <path d="M100 22 L66 40 L66 34 L100 16 Z" fill="white" stroke={accent} strokeWidth="0.8" strokeLinejoin="round" opacity="0.9" />
+            {/* Inner pages visible — right */}
+            <path d="M100 22 L134 40 L134 34 L100 16 Z" fill="white" stroke={accent} strokeWidth="0.8" strokeLinejoin="round" opacity="0.9" />
+            {/* Spine — thick ridge at top */}
+            <line x1="100" y1="13" x2="100" y2="23" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+            {/* Page edge lines — left */}
+            <line x1="70" y1="36" x2="96" y2="19" stroke={accent} strokeWidth="0.6" opacity="0.15" />
+            <line x1="68" y1="38" x2="96" y2="21" stroke={accent} strokeWidth="0.6" opacity="0.15" />
+            {/* Page edge lines — right */}
+            <line x1="130" y1="36" x2="104" y2="19" stroke={accent} strokeWidth="0.6" opacity="0.15" />
+            <line x1="132" y1="38" x2="104" y2="21" stroke={accent} strokeWidth="0.6" opacity="0.15" />
           </g>
         )}
 
@@ -324,30 +364,48 @@ export default function FatBird({
 
         {accessory === "chef" && (
           <g>
-            <ellipse cx="100" cy="30" rx="32" ry="10" fill="white" stroke="#E8E0D6" strokeWidth="1.5" />
-            <ellipse cx="100" cy="22" rx="24" ry="14" fill="white" stroke="#E8E0D6" strokeWidth="1" />
-            <ellipse cx="92" cy="18" rx="10" ry="9" fill="white" />
-            <ellipse cx="108" cy="18" rx="10" ry="9" fill="white" />
-            <ellipse cx="100" cy="14" rx="8" ry="7" fill="white" />
+            {/* Hat band — the stiff bottom rim */}
+            <rect x="64" y="34" width="72" height="12" rx="3" fill="white" stroke="#DDD8D0" strokeWidth="1.5" />
+            {/* Puffy top — large billowy shape */}
+            <ellipse cx="100" cy="22" rx="38" ry="18" fill="white" stroke="#DDD8D0" strokeWidth="1.2" />
+            {/* Puff folds */}
+            <path d="M72 28 Q78 12 92 18" stroke="#E8E0D6" strokeWidth="1" fill="none" strokeLinecap="round" />
+            <path d="M92 18 Q100 8 110 16" stroke="#E8E0D6" strokeWidth="1" fill="none" strokeLinecap="round" />
+            <path d="M110 16 Q120 10 130 26" stroke="#E8E0D6" strokeWidth="1" fill="none" strokeLinecap="round" />
           </g>
         )}
 
         {accessory === "scissors" && (
-          <g>
-            <circle cx="128" cy="56" r="7" fill="none" stroke={accent} strokeWidth="2.5" />
-            <circle cx="142" cy="68" r="7" fill="none" stroke={accent} strokeWidth="2.5" />
-            <line x1="125" y1="62" x2="145" y2="74" stroke={accent} strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="131" y1="62" x2="139" y2="62" stroke={accent} strokeWidth="2.5" strokeLinecap="round" />
+          <g transform="translate(168, 88) rotate(25)">
+            {/* Finger holes */}
+            <ellipse cx="-4" cy="18" rx="6" ry="5" fill="none" stroke={accent} strokeWidth="2.5" />
+            <ellipse cx="4" cy="18" rx="6" ry="5" fill="none" stroke={accent} strokeWidth="2.5" />
+            {/* Blades */}
+            <line x1="-4" y1="13" x2="-10" y2="-18" stroke={accent} strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="4" y1="13" x2="10" y2="-18" stroke={accent} strokeWidth="2.5" strokeLinecap="round" />
+            {/* Pivot */}
+            <circle cx="0" cy="10" r="2.5" fill={accent} />
           </g>
         )}
 
-        {accessory === "calendar" && (
+        {accessory === "desk-calendar" && (
           <g>
-            <rect x="125" y="52" width="28" height="24" rx="4" fill="white" stroke={accent} strokeWidth="2" />
-            <rect x="125" y="52" width="28" height="8" rx="4" fill={accent} opacity="0.8" />
-            <circle cx="133" cy="49" r="2" fill={accent} />
-            <circle cx="145" cy="49" r="2" fill={accent} />
-            <text x="139" y="72" textAnchor="middle" fontSize="10" fill={accent} fontWeight="700" fontFamily="system-ui">14</text>
+            {/* Calendar base — slightly tilted back */}
+            <path d="M74 38 L72 20 L128 20 L126 38 Z" fill="white" stroke={accent} strokeWidth="1.5" strokeLinejoin="round" />
+            {/* Top header bar */}
+            <path d="M72 20 L74 12 L126 12 L128 20 Z" fill={accent} opacity="0.75" />
+            {/* Ring holes */}
+            <circle cx="82" cy="12" r="2.5" fill={accent} stroke={accent} strokeWidth="1" />
+            <circle cx="92" cy="12" r="2.5" fill={accent} stroke={accent} strokeWidth="1" />
+            <circle cx="108" cy="12" r="2.5" fill={accent} stroke={accent} strokeWidth="1" />
+            <circle cx="118" cy="12" r="2.5" fill={accent} stroke={accent} strokeWidth="1" />
+            {/* Ring arcs */}
+            <path d="M82 12 Q82 6 84 6" stroke={accent} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.7" />
+            <path d="M92 12 Q92 6 94 6" stroke={accent} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.7" />
+            <path d="M108 12 Q108 6 110 6" stroke={accent} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.7" />
+            <path d="M118 12 Q118 6 120 6" stroke={accent} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.7" />
+            {/* Date number */}
+            <text x="100" y="34" textAnchor="middle" fontSize="14" fill={accent} fontWeight="700" fontFamily="system-ui">01</text>
           </g>
         )}
 

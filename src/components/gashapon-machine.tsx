@@ -18,7 +18,7 @@ const EGG_POSITIONS = [
 
 const SVG_W = 240;
 const SVG_H = 280;
-const RENDER_W = 240;
+const RENDER_W = 280;
 const RENDER_H = Math.round((RENDER_W / SVG_W) * SVG_H);
 
 const sx = RENDER_W / SVG_W;

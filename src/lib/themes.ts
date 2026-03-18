@@ -42,7 +42,7 @@ export const themes: Record<string, ThemeConfig> = {
     eggColor: "#D7CCC8",
     eggColorDark: "#BCAAA4",
     accent: "#795548",
-    accessory: "bookmark",
+    accessory: "open-book",
   },
   艺术: {
     key: "艺术",
@@ -58,7 +58,7 @@ export const themes: Record<string, ThemeConfig> = {
     eggColor: "#D6EAF8",
     eggColorDark: "#AED6F1",
     accent: "#5DADE2",
-    accessory: "bowtie",
+    accessory: "pencil",
   },
   音乐: {
     key: "音乐",
@@ -106,7 +106,7 @@ export const themes: Record<string, ThemeConfig> = {
     eggColor: "#FDEBD0",
     eggColorDark: "#F5CBA7",
     accent: "#CA8944",
-    accessory: "apron",
+    accessory: "duster",
   },
   饮食: {
     key: "饮食",
@@ -130,7 +130,7 @@ export const themes: Record<string, ThemeConfig> = {
     eggColor: "#F5CBA7",
     eggColorDark: "#E8B480",
     accent: "#D68040",
-    accessory: "wings-glow",
+    accessory: "heart",
   },
   手工: {
     key: "手工",
@@ -146,7 +146,7 @@ export const themes: Record<string, ThemeConfig> = {
     eggColor: "#ECEFF1",
     eggColorDark: "#B0BEC5",
     accent: "#607D8B",
-    accessory: "calendar",
+    accessory: "desk-calendar",
   },
   惊喜: {
     key: "惊喜",

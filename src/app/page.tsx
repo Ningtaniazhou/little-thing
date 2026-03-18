@@ -32,6 +32,7 @@ export default function Home() {
   const [toastMessage, setToastMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [categoryOpen, setCategoryOpen] = useState(false);
 
   useEffect(() => {
     setWeekCount(getWeekCount());
@@ -70,6 +71,7 @@ export default function Home() {
   const handleTwist = useCallback(async () => {
     if (loading) return;
 
+    setCategoryOpen(false);
     setLoading(true);
     setState("shaking");
 
@@ -115,7 +117,7 @@ export default function Home() {
   const isIdle = state === "idle" || state === "shaking";
 
   return (
-    <div className="flex min-h-svh flex-col items-center px-4 pt-[12vh]">
+    <div className="flex min-h-svh flex-col items-center px-4 pt-[8vh]">
       <div className="flex w-full max-w-[420px] flex-col items-center gap-4">
         {/* Header — always in the same position */}
         <motion.div
@@ -131,7 +133,7 @@ export default function Home() {
         </motion.div>
 
         {/* Main interaction area — fixed height to prevent layout shift */}
-        <div className="relative flex h-[440px] w-full flex-col items-center justify-center">
+        <div className="relative flex h-[420px] w-full flex-col items-center justify-center">
           <AnimatePresence mode="wait">
             {/* IDLE: Show gashapon machine */}
             {isIdle && (
@@ -149,8 +151,8 @@ export default function Home() {
                     onHandleClick={handleTwist}
                     selectedCategories={selectedCategories}
                   />
-                  <div className="absolute -right-14 bottom-3">
-                    <FatBird size={88} animate="idle" />
+                  <div className="absolute -right-16 bottom-3">
+                    <FatBird size={100} animate="idle" />
                   </div>
                 </div>
 
@@ -161,7 +163,7 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {loading ? "扭蛋中..." : "扭一下 🎯"}
+                  {loading ? "扭蛋中..." : "扭一下 🌀"}
                 </motion.button>
               </motion.div>
             )}
@@ -237,17 +239,14 @@ export default function Home() {
           </AnimatePresence>
         </div>
 
-        {/* Category selector — opacity-controlled to preserve layout space */}
-        <div
-          className="flex w-full justify-center transition-opacity duration-300"
-          style={{
-            opacity: isIdle ? 1 : 0,
-            pointerEvents: isIdle ? "auto" : "none",
-          }}
-        >
+        {/* Category selector */}
+        <div className="flex w-full justify-center">
           <CategorySelector
             selected={selectedCategories}
             onChange={handleCategoryChange}
+            open={categoryOpen && isIdle}
+            onOpenChange={setCategoryOpen}
+            visible={isIdle}
           />
         </div>
 
