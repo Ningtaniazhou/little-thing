@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const TRACK_URL =
-  "/audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3";
+  "audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3";
 
 export default function BackgroundMusic() {
   const [playing, setPlaying] = useState(false);
