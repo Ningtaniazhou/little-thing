@@ -2,28 +2,52 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const TRACK_URL =
-  "audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3";
+const TRACK_PATHS = [
+  "audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3",
+  "./audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3",
+  "/little-thing/audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3",
+  "/audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3",
+];
 
 export default function BackgroundMusic() {
   const [playing, setPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [audioReady, setAudioReady] = useState(true);
+  const pathIndexRef = useRef(0);
 
   useEffect(() => {
-    const audio = new Audio(TRACK_URL);
+    const audio = new Audio();
     audio.loop = true;
     audio.preload = "auto";
     audio.volume = 0.28;
     audioRef.current = audio;
 
-    const onError = () => setAudioReady(false);
+    const applyPath = (idx: number) => {
+      if (idx >= TRACK_PATHS.length) {
+        setAudioReady(false);
+        return;
+      }
+      pathIndexRef.current = idx;
+      audio.src = TRACK_PATHS[idx];
+      audio.load();
+    };
+
+    const onError = () => {
+      applyPath(pathIndexRef.current + 1);
+    };
+    const onCanPlay = () => {
+      setAudioReady(true);
+    };
+
     audio.addEventListener("error", onError);
+    audio.addEventListener("canplay", onCanPlay);
+    applyPath(0);
 
     return () => {
       audio.pause();
       audio.src = "";
       audio.removeEventListener("error", onError);
+      audio.removeEventListener("canplay", onCanPlay);
       audioRef.current = null;
     };
   }, []);
@@ -52,7 +76,7 @@ export default function BackgroundMusic() {
       </button>
       {!audioReady && (
         <p className="text-[10px] text-[#B0A494]">
-          未找到音乐文件，请把选中曲目放到 `public/audio/` 目录
+          音乐加载失败，请刷新页面后重试
         </p>
       )}
     </div>
