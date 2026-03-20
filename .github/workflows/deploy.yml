@@ -31,6 +31,9 @@ jobs:
         run: npm ci
 
       - name: Build static export
+        env:
+          STATIC_EXPORT: "true"
+          BASE_PATH: "/little-thing"
         run: npm run build
 
       - name: Upload artifact

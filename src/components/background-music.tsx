@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
+/** 先试站点根（本地 build:static），再试 GitHub Pages 子路径 */
 const TRACK_PATHS = [
+  "/audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3",
   "audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3",
   "./audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3",
   "/little-thing/audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3",
-  "/audio/smooth-calm-inspiring-acoustic-ukulele-background-117288.mp3",
 ];
 
 export default function BackgroundMusic() {

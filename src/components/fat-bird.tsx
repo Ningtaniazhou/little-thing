@@ -109,112 +109,154 @@ export default function FatBird({
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          <radialGradient id="bodyGrad" cx="45%" cy="35%" r="65%">
-            <stop offset="0%" stopColor="#FFFDF8" />
-            <stop offset="60%" stopColor="#FFF5EA" />
-            <stop offset="100%" stopColor="#F5EADB" />
+          <radialGradient id="bodyGrad" cx="40%" cy="30%" r="75%">
+            <stop offset="0%" stopColor="#FFFDFB" />
+            <stop offset="58%" stopColor="#FDF1E1" />
+            <stop offset="100%" stopColor="#EFD9BF" />
           </radialGradient>
-          <filter id="fluffShadow" x="-10%" y="-10%" width="120%" height="120%">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="2" />
+          <radialGradient id="bellyGrad" cx="50%" cy="36%" r="70%">
+            <stop offset="0%" stopColor="#FFF9EC" />
+            <stop offset="100%" stopColor="#F0DDC6" />
+          </radialGradient>
+          <filter id="fluffShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2.4" />
             <feOffset dx="0" dy="2" />
             <feComponentTransfer>
-              <feFuncA type="linear" slope="0.08" />
+              <feFuncA type="linear" slope="0.15" />
             </feComponentTransfer>
             <feMerge>
               <feMergeNode />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
+          <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2.2" />
+          </filter>
         </defs>
 
-        {/* ====== Body — mochi/dumpling shape ====== */}
-        {/* Smooth base fill */}
+        {/* Ground shadow */}
+        <ellipse cx="100" cy="178" rx="60" ry="12" fill="#2E2116" opacity="0.08" filter="url(#softBlur)" />
+
+        {/* Body */}
         <path d={mochiBody} fill="url(#bodyGrad)" />
-        {/* Fluffy bumpy outline */}
         <path
           d={fluffyMochiPath()}
           fill="url(#bodyGrad)"
-          stroke="#D4C8B8"
-          strokeWidth="1.8"
+          stroke="#CBB499"
+          strokeWidth="2.2"
+        />
+        <ellipse cx="98" cy="136" rx="36" ry="24" fill="url(#bellyGrad)" opacity="0.95" />
+
+        {/* Volume highlights */}
+        <ellipse cx="76" cy="82" rx="28" ry="38" fill="white" opacity="0.16" transform="rotate(-16 76 82)" />
+        <ellipse cx="128" cy="132" rx="20" ry="26" fill="#EED7BF" opacity="0.35" transform="rotate(24 128 132)" />
+
+        {/* Tiny feather details */}
+        <path d="M80 50 Q85 44 91 49" stroke="#E7D6C4" strokeWidth="1.4" strokeLinecap="round" fill="none" />
+        <path d="M107 48 Q112 42 118 47" stroke="#E7D6C4" strokeWidth="1.4" strokeLinecap="round" fill="none" />
+        <path d="M44 110 Q48 106 52 111" stroke="#E7D6C4" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+        <path d="M148 112 Q152 108 156 113" stroke="#E7D6C4" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+
+        {/* Wings */}
+        <g filter="url(#fluffShadow)">
+          <path
+            d="M36 90 Q18 100 24 120 Q30 136 50 132 Q42 122 42 110 Q42 98 50 92"
+            fill="#FAEEDC"
+            stroke="#CCB79E"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+          <path d="M31 108 Q38 111 36 120" stroke="#E7D6C4" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+        </g>
+        <g filter="url(#fluffShadow)">
+          <path
+            d="M164 90 Q182 100 176 120 Q170 136 150 132 Q158 122 158 110 Q158 98 150 92"
+            fill="#FAEEDC"
+            stroke="#CCB79E"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+          <path d="M169 108 Q162 111 164 120" stroke="#E7D6C4" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+        </g>
+
+        {/* Tail tuft */}
+        <path d="M124 40 Q132 22 130 38" stroke="#CBB499" strokeWidth="2" strokeLinecap="round" fill="none" />
+        <path d="M130 42 Q142 26 136 43" stroke="#CBB499" strokeWidth="1.7" strokeLinecap="round" fill="none" />
+        <path d="M118 43 Q126 28 123 42" stroke="#CBB499" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+
+        {/* Cheeks */}
+        <ellipse cx="66" cy={faceY + 12} rx="11" ry="8" fill="#F9B6A8" opacity="0.34" />
+        <ellipse cx="134" cy={faceY + 12} rx="11" ry="8" fill="#F9B6A8" opacity="0.34" />
+
+        {/* Eyes: sclera + pupils + lids for richer expression */}
+        <ellipse cx="82" cy={faceY} rx="7.2" ry="6.8" fill="#FFFDF8" />
+        <ellipse cx="118" cy={faceY} rx="7.2" ry="6.8" fill="#FFFDF8" />
+        <ellipse cx="82" cy={faceY + 0.4} rx="5.3" ry="5.5" fill="#2A2A2A" />
+        <ellipse cx="118" cy={faceY + 0.4} rx="5.3" ry="5.5" fill="#2A2A2A" />
+        <circle cx="84" cy={faceY - 1.5} r="2.1" fill="#FFFFFF" />
+        <circle cx="120" cy={faceY - 1.5} r="2.1" fill="#FFFFFF" />
+        <circle cx="81" cy={faceY + 2.1} r="1" fill="#FFFFFF" opacity="0.5" />
+        <circle cx="117" cy={faceY + 2.1} r="1" fill="#FFFFFF" opacity="0.5" />
+        {/* 上眼睑阴影：淡一点，避免小尺寸下被看成「粗黑眉」 */}
+        <path
+          d={`M75 ${faceY - 3.5} Q82 ${faceY - 6.6} 89 ${faceY - 3.6}`}
+          stroke="#C4B5A8"
+          strokeWidth="0.85"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.28"
+        />
+        <path
+          d={`M111 ${faceY - 3.5} Q118 ${faceY - 6.6} 125 ${faceY - 3.6}`}
+          stroke="#C4B5A8"
+          strokeWidth="0.85"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.28"
         />
 
-        {/* Belly warmth — lower and wider for mochi shape */}
-        <ellipse cx="100" cy="138" rx="35" ry="24" fill="#FFF0E0" opacity="0.3" />
-
-        {/* ====== Fluff texture lines ====== */}
-        {/* Top */}
-        <path d="M82 46 Q85 42 89 46" stroke="#E8DDD0" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        <path d="M108 44 Q112 40 115 45" stroke="#E8DDD0" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        {/* Left side */}
-        <path d="M40 80 Q44 76 47 81" stroke="#E8DDD0" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        <path d="M34 110 Q38 106 41 111" stroke="#E8DDD0" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        <path d="M40 138 Q43 134 47 139" stroke="#E8DDD0" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        {/* Right side */}
-        <path d="M155 78 Q158 74 161 79" stroke="#E8DDD0" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        <path d="M160 108 Q163 104 166 109" stroke="#E8DDD0" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        <path d="M155 140 Q158 136 161 141" stroke="#E8DDD0" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        {/* Bottom */}
-        <path d="M78 162 Q81 158 85 163" stroke="#E8DDD0" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        <path d="M115 164 Q118 160 122 165" stroke="#E8DDD0" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-
-        {/* ====== Wings — fluffy, feathery ====== */}
-        <g filter="url(#fluffShadow)">
-          <path
-            d="M32 82 Q20 90 22 102 Q24 114 36 116 Q31 110 32 102 Q33 93 40 88"
-            fill="#FFF5EA"
-            stroke="#D4C8B8"
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-          />
-          <path d="M26 94 Q30 97 28 103" stroke="#E8DDD0" strokeWidth="1" strokeLinecap="round" fill="none" />
-          <path d="M30 89 Q34 92 32 98" stroke="#E8DDD0" strokeWidth="1" strokeLinecap="round" fill="none" />
-        </g>
-        <g filter="url(#fluffShadow)">
-          <path
-            d="M168 82 Q180 90 178 102 Q176 114 164 116 Q169 110 168 102 Q167 93 160 88"
-            fill="#FFF5EA"
-            stroke="#D4C8B8"
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-          />
-          <path d="M174 94 Q170 97 172 103" stroke="#E8DDD0" strokeWidth="1" strokeLinecap="round" fill="none" />
-          <path d="M170 89 Q166 92 168 98" stroke="#E8DDD0" strokeWidth="1" strokeLinecap="round" fill="none" />
-        </g>
-
-        {/* ====== Tail feathers — small tuft at back-top ====== */}
-        <path d="M128 40 Q136 26 133 38" stroke="#D4C8B8" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-        <path d="M124 43 Q130 28 128 40" stroke="#D4C8B8" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-        <path d="M132 43 Q140 30 136 42" stroke="#D4C8B8" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-
-        {/* ====== Cheek blush ====== */}
-        <ellipse cx="68" cy={faceY + 12} rx="10" ry="7" fill="#FFD4C4" opacity="0.3" />
-        <ellipse cx="132" cy={faceY + 12} rx="10" ry="7" fill="#FFD4C4" opacity="0.3" />
-
-        {/* ====== Eyes — positioned in upper part of body ====== */}
-        <circle cx="82" cy={faceY} r="5" fill="#2B2B2B" />
-        <circle cx="118" cy={faceY} r="5" fill="#2B2B2B" />
-        <circle cx="84" cy={faceY - 2} r="2" fill="#FFFFFF" />
-        <circle cx="120" cy={faceY - 2} r="2" fill="#FFFFFF" />
-
-        {/* ====== Beak — small, just below eyes ====== */}
+        {/* 眉毛：略靠上；单侧一条平滑弧线呈 >< 感；棕灰 */}
         <path
-          d={`M94 ${faceY + 12} L100 ${faceY + 21} L106 ${faceY + 12} Z`}
-          fill="#A0B4BF"
-          stroke="#8FA3AE"
-          strokeWidth="1.2"
+          d={`M72.5 ${faceY - 17.2} Q80.5 ${faceY - 20.6} 88 ${faceY - 16.4}`}
+          stroke="#6E6259"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.92"
+        />
+        <path
+          d={`M127.5 ${faceY - 17.2} Q119.5 ${faceY - 20.6} 112 ${faceY - 16.4}`}
+          stroke="#6E6259"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.92"
+        />
+
+        {/* Beak */}
+        <path
+          d={`M92 ${faceY + 10} L100 ${faceY + 22} L108 ${faceY + 10} Z`}
+          fill="#F6B432"
+          stroke="#D08E20"
+          strokeWidth="1.8"
           strokeLinejoin="round"
         />
+        <path d={`M95 ${faceY + 14} Q100 ${faceY + 17} 105 ${faceY + 14}`} stroke="#D08E20" strokeWidth="1.2" fill="none" />
+        <path d={`M96 ${faceY + 23} Q100 ${faceY + 25} 104 ${faceY + 23}`} stroke="#B8873D" strokeWidth="1.1" strokeLinecap="round" fill="none" opacity="0.8" />
 
-        {/* ====== Legs with split toes ====== */}
-        <line x1="82" y1="170" x2="82" y2="200" stroke="#A0B4BF" strokeWidth="3" strokeLinecap="round" />
-        <line x1="82" y1="200" x2="72" y2="212" stroke="#A0B4BF" strokeWidth="2.5" strokeLinecap="round" />
-        <line x1="82" y1="200" x2="90" y2="212" stroke="#A0B4BF" strokeWidth="2.5" strokeLinecap="round" />
-        <line x1="82" y1="202" x2="78" y2="208" stroke="#A0B4BF" strokeWidth="2" strokeLinecap="round" />
-
-        <line x1="118" y1="170" x2="118" y2="200" stroke="#A0B4BF" strokeWidth="3" strokeLinecap="round" />
-        <line x1="118" y1="200" x2="110" y2="212" stroke="#A0B4BF" strokeWidth="2.5" strokeLinecap="round" />
-        <line x1="118" y1="200" x2="128" y2="212" stroke="#A0B4BF" strokeWidth="2.5" strokeLinecap="round" />
-        <line x1="118" y1="202" x2="122" y2="208" stroke="#A0B4BF" strokeWidth="2" strokeLinecap="round" />
+        {/* 腿爪：略深橘褐；踝上接身体；腿+趾整体为上一版长度的 80%；侧趾仍短于中趾 */}
+        <g strokeLinecap="round" strokeLinejoin="round">
+          <line x1="77" y1="171" x2="77" y2="190" stroke="#8A4818" strokeWidth="4.2" opacity="0.34" />
+          <line x1="77" y1="171" x2="77" y2="190" stroke="#D17A36" strokeWidth="3.6" />
+          <line x1="77" y1="190" x2="64" y2="200" stroke="#D17A36" strokeWidth="3.15" />
+          <line x1="77" y1="190" x2="77" y2="204" stroke="#D17A36" strokeWidth="3.35" />
+          <line x1="77" y1="190" x2="88" y2="200" stroke="#D17A36" strokeWidth="3.1" />
+          <line x1="123" y1="171" x2="123" y2="190" stroke="#8A4818" strokeWidth="4.2" opacity="0.34" />
+          <line x1="123" y1="171" x2="123" y2="190" stroke="#D17A36" strokeWidth="3.6" />
+          <line x1="123" y1="190" x2="136" y2="200" stroke="#D17A36" strokeWidth="3.15" />
+          <line x1="123" y1="190" x2="123" y2="204" stroke="#D17A36" strokeWidth="3.35" />
+          <line x1="123" y1="190" x2="112" y2="200" stroke="#D17A36" strokeWidth="3.1" />
+        </g>
 
         {/* ====== Accessories ====== */}
         {accessory === "scarf" && (
@@ -287,16 +329,6 @@ export default function FatBird({
           </g>
         )}
 
-        {accessory === "heart" && (
-          <g>
-            <path
-              d={`M100 ${faceY + 28} C95 ${faceY + 18} 80 ${faceY + 16} 80 ${faceY + 26} C80 ${faceY + 36} 100 ${faceY + 48} 100 ${faceY + 48} C100 ${faceY + 48} 120 ${faceY + 36} 120 ${faceY + 26} C120 ${faceY + 16} 105 ${faceY + 18} 100 ${faceY + 28} Z`}
-              fill={accent}
-              opacity="0.65"
-            />
-          </g>
-        )}
-
         {accessory === "glasses" && (
           <g>
             <circle cx="80" cy={faceY} r="14" fill="none" stroke={accent} strokeWidth="2.5" />
@@ -309,18 +341,13 @@ export default function FatBird({
 
         {accessory === "heart" && (
           <g>
-            {/* Heart on the bird's chest */}
+            {/* 善意：胸前单颗粉红心（仅一条 path，避免重复渲染叠成两颗） */}
             <path
-              d="M100 125 C96 117 84 115 84 123 C84 131 100 142 100 142 C100 142 116 131 116 123 C116 115 104 117 100 125 Z"
-              fill={accent}
-              opacity="0.6"
-            />
-            <path
-              d="M100 125 C96 117 84 115 84 123 C84 131 100 142 100 142 C100 142 116 131 116 123 C116 115 104 117 100 125 Z"
-              fill="none"
-              stroke={accent}
-              strokeWidth="1.5"
-              opacity="0.8"
+              d={`M100 ${faceY + 32} C95 ${faceY + 22} 80 ${faceY + 20} 80 ${faceY + 30} C80 ${faceY + 40} 100 ${faceY + 52} 100 ${faceY + 52} C100 ${faceY + 52} 120 ${faceY + 40} 120 ${faceY + 30} C120 ${faceY + 20} 105 ${faceY + 22} 100 ${faceY + 32} Z`}
+              fill="#FF9EB5"
+              stroke="#E56B86"
+              strokeWidth="1.15"
+              strokeLinejoin="round"
             />
           </g>
         )}
