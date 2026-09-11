@@ -37,3 +37,7 @@ next-env.d.ts
 # python virtual environment
 .venv/
 __pycache__/
+
+# Playwright runtime artifacts (baseline PNGs in tests/ are versioned)
+/test-results/
+/playwright-report/

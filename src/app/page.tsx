@@ -153,7 +153,7 @@ export default function Home() {
                     onHandleClick={handleTwist}
                     selectedCategories={selectedCategories}
                   />
-                  <div className="absolute -right-16 bottom-3">
+                  <div className="absolute right-0 min-[480px]:-right-16 bottom-3">
                     <FatBird size={100} animate="idle" />
                   </div>
                 </div>

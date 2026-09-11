@@ -12,6 +12,7 @@ const basePath =
     : undefined;
 
 const nextConfig: NextConfig = {
+  devIndicators: false,
   ...(staticExport && {
     output: "export",
   }),

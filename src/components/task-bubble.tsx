@@ -44,7 +44,7 @@ export default function TaskBubble({
                 color: "#4A4A4A",
               }}
             >
-              {isSurprise ? "✨ " : ""}{task.category} · {task.minutes}分钟
+              {isSurprise ? "✨ " : ""}{task.category}
             </span>
           </div>
 

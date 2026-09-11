@@ -1,0 +1,61 @@
+.chirpy-preview{min-height:100svh;background:#f7f4eb;color:#493d32;padding:14px 4vw 40px;font-family:"PingFang SC","Microsoft YaHei",sans-serif}
+.chirpy-preview button{-webkit-tap-highlight-color:transparent;cursor:pointer;font:inherit}
+.chirpy-preview button:disabled,.chirpy-preview fieldset:disabled button{cursor:default;opacity:.55}
+.chirpy-preview button:focus-visible,.chirpy-preview a:focus-visible{outline:3px solid #287d95;outline-offset:4px}
+.chirpy-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(360px,1fr);gap:5vw;max-width:1400px;margin:auto;align-items:center}
+.chirpy-machine-area{min-width:0;display:flex;flex-direction:column;align-items:center;gap:18px}
+.chirpy-stage{position:relative;width:100%;height:calc(100svh - 145px);min-height:510px;max-height:800px;border-radius:110px 110px 28px 28px;background:radial-gradient(ellipse at 28% 20%,#e4eff0 0,#c4dce1 50%,#a9cbd4 100%);overflow:hidden;isolation:isolate}
+.chirpy-stage:before{content:"";position:absolute;width:200%;height:130px;background:#fff9e82e;transform:rotate(-36deg);left:-50%;top:10%;pointer-events:none;filter:blur(15px)}
+.chirpy-canvas{position:absolute;inset:0}.chirpy-canvas canvas{width:100%;height:100%;display:block;touch-action:none}
+.star-sound{position:absolute;z-index:3;width:44px;height:44px;display:grid;place-items:center;transform:translate(-50%,-50%);padding:0;border:0;background:transparent;visibility:hidden;touch-action:manipulation}
+.star-sound-disc{position:relative;width:35px;height:35px;display:grid;place-items:center;border-radius:50%;background:#fff0b8;border:2px solid #edbf5c;box-shadow:0 3px 0 #af813c59,0 0 10px #ffdf7d45;color:#35859b;transition:transform .15s}
+.star-sound svg{width:22px;height:22px;transform:rotate(-10deg)}.star-sound:hover .star-sound-disc{transform:rotate(10deg)}.star-sound[aria-pressed=false] .star-sound-disc{background:#ede7d4;color:#849998;border-color:#ccbb87}.star-sound:active .star-sound-disc{transform:translateY(2px)}
+.stage-twist{display:flex;align-items:center;justify-content:center;gap:10px;min-width:154px;min-height:48px;padding:10px 28px;border:1px solid #ca6838;border-bottom:4px solid #b75e35;background:#df7946;color:#fff6e2;border-radius:28px;box-shadow:0 5px 14px #6743191a;font-size:14px!important;letter-spacing:1px;transition:background .15s}
+.stage-twist:hover:not(:disabled){background:#e68755}.stage-twist>span{font-size:22px;line-height:1}.turning{animation:turn 1.5s linear infinite}
+.chirpy-panel{padding:15px 0;max-width:475px;width:100%}.chirpy-panel h1{font-size:clamp(22px,2vw,28px);font-weight:600;line-height:1.5;letter-spacing:1px;margin:0 0 25px;white-space:nowrap}
+.chirpy-message{min-height:133px;background:#fffcf4;border:1px solid #e8dfcd;border-radius:5px 23px 23px 23px;padding:21px 23px;box-shadow:0 4px 0 #ebe3d64d;transition:background .3s;display:flex;flex-direction:column;justify-content:center}
+.chirpy-message.is-revealed{background:#fff5d9;border-color:#e7d7b2}.message-label{font-size:11px;letter-spacing:1.5px;color:#a78855;margin-bottom:5px}
+.chirpy-message p{font-size:14px;line-height:1.9;margin:0 0 8px;color:#665239}.chirpy-message small{font-size:11px;line-height:1.7;color:#a28e73;display:block}
+.theme-selector{border:0;padding:0;margin:29px 0 0;min-width:0}.theme-selector legend{font-size:13px;letter-spacing:1px;margin:0 0 13px;padding:0;color:#8c775a}.theme-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.theme-option{position:relative;display:flex;align-items:center;gap:11px;padding:15px 12px;text-align:left;border:1px solid #e6dece;border-radius:17px;background:#faf7ef;color:#655540;min-width:0;min-height:77px;transition:border-color .15s,background .15s}
+.theme-option:hover:not(:disabled){border-color:#c9ac79}.theme-option[aria-pressed=true]{border-color:#bca071;background:#fff8e5;box-shadow:0 0 0 1px #bca0713b}
+.theme-egg{display:grid;place-items:center;flex-shrink:0;width:28px;height:35px;border-radius:50% 50% 46% 46%;border:2px solid #ffffff9e;box-shadow:inset -3px -4px 5px #00000010;color:#fff8dc;font-size:15px}
+.random-theme .theme-egg{background:conic-gradient(from 20deg,#f5d467,#9ccba4,#7dc2df,#b8a0d6,#ee9fab,#f5d467)}
+.theme-option strong{display:block;font-size:12px;font-weight:500;letter-spacing:.5px;margin-bottom:5px}.theme-option small{display:block;font-size:9px;line-height:1.6;color:#a39077}.theme-check{position:absolute;right:7px;top:5px;font-size:10px;color:#9a7c4d;opacity:0}.theme-option[aria-pressed=true] .theme-check{opacity:1}
+.scene-loading{position:absolute;z-index:5;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#c5dce2;color:#537888;font-size:14px;gap:12px}.scene-loading p{margin:0}.scene-loading small{font-size:10px}.loading-star{font-size:44px;color:#e7b255;animation:star-breathe 1.5s infinite alternate}.scene-loading button,.scene-loading a{background:#fff4db;border:0;border-radius:16px;padding:12px 20px;text-decoration:none;color:#785d3e;font-size:12px}
+@keyframes star-breathe{to{opacity:.4;transform:scale(.9)}}@keyframes turn{to{transform:rotate(360deg)}}
+@media(max-width:1000px) and (min-width:641px){.chirpy-preview{padding:12px 22px}.chirpy-layout{grid-template-columns:minmax(0,1.15fr) minmax(310px,1fr);gap:26px}.chirpy-panel h1{font-size:22px;letter-spacing:0}.theme-option{gap:8px;padding:13px 9px}.theme-egg{width:24px;height:31px}.theme-option small{font-size:8px}}
+@media(max-width:640px){.chirpy-preview{padding:10px 16px 34px}.chirpy-layout{display:flex;flex-direction:column;gap:25px}.chirpy-machine-area{width:100%;gap:15px}.chirpy-stage{height:min(62svh,560px);min-height:410px;max-height:none;border-radius:85px 85px 24px 24px}.stage-twist{min-width:144px;min-height:46px;font-size:13px!important}.chirpy-panel{padding:0 4px;max-width:none}.chirpy-panel h1{font-size:22px;letter-spacing:.5px;margin-bottom:20px}.chirpy-message{min-height:125px;padding:19px 20px}.chirpy-message p{font-size:13px}.chirpy-message small{font-size:10px}.theme-selector{margin-top:25px}.theme-option{min-height:79px;gap:10px;padding:13px 10px}.theme-option strong{font-size:12px}.theme-option small{font-size:9px}.star-sound-disc{width:31px;height:31px}.star-sound svg{width:20px;height:20px}}
+@media(max-width:359px){.chirpy-panel h1{font-size:20px}.theme-option{gap:7px;padding-left:8px}.theme-egg{width:23px;height:30px}.theme-option small{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.loading-star,.turning{animation:none}.chirpy-preview *{transition:none!important}}
+.theme-option small{text-wrap:balance}.theme-category{display:inline-block;white-space:nowrap}
+
+.chirpy-message.is-revealed p{font-size:17px;color:#4d3b28;line-height:1.85}.chirpy-message.is-revealed small{font-size:14px;color:#756047;line-height:1.8}
+
+.stage-actions{display:flex;justify-content:center;gap:12px;max-width:100%}.stage-actions .stage-twist{min-width:126px;padding:10px 18px}.stage-done{background:#4c96a3;border-color:#397886;border-bottom-color:#326675}.stage-done:hover:not(:disabled){background:#5da8b4}
+.cheer-dialog{border:0;padding:0;background:transparent;color:#493d32;width:min(420px,calc(100vw - 32px));max-height:90svh;overflow:auto;margin:auto;outline:none}.cheer-dialog::backdrop{background:#183c48a6;backdrop-filter:blur(5px)}.cheer-card{position:relative;text-align:center;background:radial-gradient(ellipse at 50% 26%,#fff5c7,#f8f3e7 70%);border:2px solid #e5ce98;border-radius:36px;padding:20px 24px 28px;overflow:hidden}.cheer-close{position:absolute;right:12px;top:10px;z-index:1;border:0;border-radius:50%;background:#eadfc8;color:#6a5940;font-size:28px!important;width:38px;height:38px}.cheer-bird{width:100%;height:auto;max-height:43svh;object-fit:contain;filter:drop-shadow(0 10px 16px #cda35430)}.cheer-card h2{font-size:26px;line-height:1.5;color:#9a592e;margin:8px 0 12px}.cheer-card p{font-size:15px;line-height:1.9;color:#766045;margin:0 0 20px}.cheer-confirm{margin:auto}.cheer-dialog[open] .cheer-bird{animation:cheer-arrive .55s ease-out}@keyframes cheer-arrive{from{transform:translateY(18px) scale(.9);opacity:0}to{transform:none;opacity:1}}@media(prefers-reduced-motion:reduce){.cheer-dialog[open] .cheer-bird{animation:none}}
+
+.cheer-card{background:#f8f3e7}.cheer-bird{filter:none;border-radius:24px}.cheer-like{position:relative;display:grid;place-items:center;width:70px;height:58px;border:2px solid #cc6c39;border-bottom-width:4px;border-radius:22px;background:#df7946;color:#fff4cf;margin:20px auto 0;overflow:visible}.cheer-like svg{width:30px;height:30px}.chirpy-preview .cheer-like:disabled{opacity:1}.like-burst{position:absolute;color:#e3ac37;opacity:0;pointer-events:none;font-size:25px;right:-10px;top:-10px}.cheer-like.is-liked svg{animation:like-pop .65s ease-out}.cheer-like.is-liked .like-burst{animation:like-spark .65s ease-out}.cheer-like.is-liked{background:#438d9d;border-color:#32707d}.cheer-like.is-liked:after{content:"";position:absolute;inset:-8px;border:2px solid #e4b54d;border-radius:50%;animation:like-ring .65s ease-out;pointer-events:none}@keyframes like-pop{0%,100%{transform:scale(1) rotate(0)}35%{transform:scale(1.4) rotate(-18deg)}65%{transform:scale(.95) rotate(8deg)}}@keyframes like-spark{0%{opacity:0;transform:scale(.3)}35%{opacity:1}100%{opacity:0;transform:translate(10px,-15px) scale(1.2)}}@keyframes like-ring{from{opacity:.8;transform:scale(.65)}to{opacity:0;transform:scale(1.3)}}@media(prefers-reduced-motion:reduce){.cheer-like.is-liked svg,.cheer-like.is-liked .like-burst,.cheer-like.is-liked:after{animation:none}}
+
+.chirpy-message:not(.is-revealed) p{font-size:16px}.chirpy-message:not(.is-revealed) small{font-size:13px}
+
+/* Keep the machine, actions, greeting and full task together in the first viewport.
+   Theme choices continue in normal document flow below this core scene. */
+@media(max-width:640px){
+  .chirpy-preview{padding:8px 12px 24px}
+  .chirpy-layout{gap:12px}
+  .chirpy-machine-area{gap:10px}
+  .chirpy-stage{height:calc(100svh - var(--message-height, 165px) - 148px);min-height:160px;border-radius:52px 52px 22px 22px}
+  .chirpy-panel{padding:0}
+  .chirpy-panel h1{font-size:20px;line-height:1.5;margin:0 0 10px}
+  .chirpy-message{min-height:108px;padding:12px 16px}
+  .chirpy-message.is-revealed p{font-size:16px;line-height:1.65;margin-bottom:5px}
+  .chirpy-message.is-revealed small{font-size:13px;line-height:1.6}
+  .message-label{margin-bottom:4px}
+  .stage-actions{gap:10px}
+  .stage-actions .stage-twist{min-width:120px;min-height:44px;padding:8px 15px}
+  .cheer-card{padding:14px 18px 20px;border-radius:28px}
+  .cheer-card h2{font-size:22px}
+  .cheer-bird{max-height:42svh}
+  .cheer-like{margin-top:12px}
+}
