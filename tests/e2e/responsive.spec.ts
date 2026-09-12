@@ -56,7 +56,9 @@ test('3D: one-screen layout, theme selection, repeat draw, celebration, like and
   await insideViewport(page, dialog);
   await insideViewport(page, page.getByRole('button',{name:'点赞',exact:true}));
   expect(await dialog.evaluate(el => el.scrollHeight <= el.clientHeight + 1)).toBe(true);
-  await expect(page.locator('.cheer-bird')).toHaveJSProperty('complete',true);
+  await expect(page.locator('.cheer-flight-scene')).toHaveAttribute('data-phase','holding');
+  await expect(dialog.locator('canvas')).toBeVisible();
+  await expect(dialog.locator('img')).toHaveCount(0);
   await expect(page).toHaveScreenshot('3d-celebration.png',{animations:'disabled'});
   await page.getByRole('button',{name:'点赞',exact:true}).click();
   await expect(page.getByRole('button',{name:'已点赞',exact:true})).toHaveAttribute('aria-pressed','true');

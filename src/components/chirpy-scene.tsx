@@ -8,6 +8,8 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { ChirpyAudio } from "@/lib/chirpy-audio";
 import { CHIRPY_THEMES } from "@/lib/chirpy-themes";
 import { animationDelta, createChirpyPlayback } from "@/lib/chirpy-animation";
+import { createBirdAccessories } from "@/lib/chirpy-accessories";
+import { startBirdCelebration } from "@/lib/chirpy-celebration";
 
 export const DURATION = 8;
 export const PHASES = [
@@ -20,7 +22,7 @@ export const PHASES = [
 
 export type SceneHandle = {
   play: (restart?: boolean) => void;
-  celebrate: () => void;
+  celebrate: (message: string, host: HTMLElement) => void;
   pause: () => void;
   seek: (time: number) => void;
   reset: () => void;
@@ -105,6 +107,8 @@ export default function ChirpyScene({ modelUrl, onReady, onProgress, onTwist, so
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let playback: ReturnType<typeof createChirpyPlayback> | undefined;
     let model: THREE.Group | undefined;
+    let accessories: ReturnType<typeof createBirdAccessories> | undefined;
+    let celebration: ReturnType<typeof startBirdCelebration> | undefined;
     let time = 0;
     let playing = false;
     let cheerTime = -1;
@@ -126,8 +130,12 @@ export default function ChirpyScene({ modelUrl, onReady, onProgress, onTwist, so
     function report() { callbacks.current.onProgress(time, playing); }
     function applyTime() { playback?.seek(time); }
     const handle: SceneHandle = {
-      celebrate() {
+      celebrate(message, host) {
         if (playing || time < DURATION || cheerTime >= 0) return;
+        const bird = model?.getObjectByName("Bird_Root");
+        if (!bird) return;
+        controls.enabled = false;
+        celebration = startBirdCelebration(bird, camera, renderer.domElement, host, message, scene.environment, reducedMotion);
         cheerTime = 0; audio.setDucked(true); audio.cheer();
       },
       play(restart = false) {
@@ -138,9 +146,12 @@ export default function ChirpyScene({ modelUrl, onReady, onProgress, onTwist, so
       },
       pause() { playing = false; audio.setDucked(false); audio.stop(); report(); },
       seek(t) { playing = false; audio.setDucked(false); audio.stop(); time = THREE.MathUtils.clamp(t, 0, DURATION); applyTime(); report(); },
-      reset() { playing = false; audio.setDucked(false); audio.stop(); time = 0; playback?.reset(); camera.position.copy(fullPosition); controls.target.copy(fullTarget); report(); },
+      reset() { celebration?.dispose(); celebration = undefined; cheerTime = -1; controls.enabled = true; playing = false; audio.setDucked(false); audio.stop(); time = 0; playback?.reset(); camera.position.copy(fullPosition); controls.target.copy(fullTarget); report(); },
       sound(enabled) { audio.setEnabled(enabled); },
-      color(index) { shells.forEach(m => m.color.set(PALETTE[index % PALETTE.length])); },
+      color(index) {
+        shells.forEach(m => m.color.set(PALETTE[index % PALETTE.length]));
+        accessories?.select(index);
+      },
     };
     function disposeObject(object: THREE.Object3D) {
       const geometries = new Set<THREE.BufferGeometry>();
@@ -180,6 +191,8 @@ export default function ChirpyScene({ modelUrl, onReady, onProgress, onTwist, so
         }
       });
       originalMaterials.forEach(m => m.dispose());
+      const birdBody = model.getObjectByName("Bird_Body_Pivot");
+      if (birdBody) accessories = createBirdAccessories(birdBody);
       scene.add(model);
       soundAnchor = model.getObjectByName("Sound_Button_Anchor");
       playback = createChirpyPlayback(model, gltf.animations);
@@ -238,10 +251,10 @@ export default function ChirpyScene({ modelUrl, onReady, onProgress, onTwist, so
         applyTime();
         if (time >= DURATION) { playing = false; audio.setDucked(false); report(); }
       }
-      if (cheerTime >= 0 && playback) {
-        cheerTime = Math.min(1.1, cheerTime + dt);
-        playback.cheer(cheerTime);
-        if (cheerTime >= 1.1) { cheerTime = -1; audio.setDucked(false); }
+      if (celebration) {
+        celebration.update(dt);
+        if (cheerTime < 2.1 && cheerTime + dt >= 2.1) audio.setDucked(false);
+        cheerTime += dt;
       }
       const active = time > 0 && time < 5.7;
       bulbs.forEach(({ material, star, index }) => {
@@ -275,7 +288,7 @@ export default function ChirpyScene({ modelUrl, onReady, onProgress, onTwist, so
       renderer.domElement.removeEventListener("pointerdown", pointerDown);
       renderer.domElement.removeEventListener("pointerup", pointerUp);
       renderer.domElement.removeEventListener("webglcontextlost", onContextLost);
-      playback?.dispose();
+      celebration?.dispose(); playback?.dispose();
       disposeObject(scene); env.dispose(); pmrem.dispose(); renderer.dispose(); renderer.domElement.remove();
     };
   }, [modelUrl]);

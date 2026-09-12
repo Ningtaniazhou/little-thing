@@ -13,7 +13,7 @@ export class ChirpyAudio {
   setDucked(ducked: boolean) {
     this.ducked = ducked;
     if (this.context && this.musicBus) {
-      this.musicBus.gain.setTargetAtTime(ducked ? .3 : 2.1, this.context.currentTime, ducked ? .04 : .7);
+      this.musicBus.gain.setTargetAtTime((ducked ? .3 : 2.1) * 1.5, this.context.currentTime, ducked ? .04 : .7);
     }
   }
 

@@ -1,17 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { DURATION, PHASES, type SceneHandle } from "@/components/chirpy-scene";
 import { CHIRPY_THEMES, drawChirpyTask } from "@/lib/chirpy-themes";
-import { getRandomFeedback } from "@/components/feedback-toast";
+import { getRandomFeedback } from "@/lib/chirpy-feedback";
 import type { Task } from "@/lib/llm/types";
 import "./preview.css";
 
 const Scene = dynamic(() => import("@/components/chirpy-scene"), { ssr: false });
 
-export default function ChirpyPreview({ modelUrl, cheerImageUrl }: { modelUrl: string; cheerImageUrl: string }) {
+export default function ChirpyPreview({ modelUrl }: { modelUrl: string }) {
   const main = useRef<HTMLElement>(null);
   const message = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -24,6 +23,7 @@ export default function ChirpyPreview({ modelUrl, cheerImageUrl }: { modelUrl: s
     return () => observer.disconnect();
   }, []);
   const dialog = useRef<HTMLDialogElement>(null);
+  const celebrationHost = useRef<HTMLDivElement>(null);
   const celebrationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [celebrating, setCelebrating] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -33,9 +33,11 @@ export default function ChirpyPreview({ modelUrl, cheerImageUrl }: { modelUrl: s
     if (celebrating) return;
     setCelebrating(true);
     setLiked(false);
-    setFeedback(getRandomFeedback());
-    scene.current?.celebrate();
-    celebrationTimer.current = setTimeout(() => { dialog.current?.showModal(); }, 1100);
+    const words = getRandomFeedback();
+    setFeedback(words);
+    window.scrollTo({top:0,behavior:"instant"});
+    dialog.current?.showModal();
+    if (celebrationHost.current) scene.current?.celebrate(words, celebrationHost.current);
   };
   const scene = useRef<SceneHandle | null>(null);
   const [ready, setReady] = useState(false);
@@ -112,17 +114,15 @@ export default function ChirpyPreview({ modelUrl, cheerImageUrl }: { modelUrl: s
         </fieldset>
       </aside>
     </div>
-    <dialog ref={dialog} className="cheer-dialog" aria-labelledby="cheer-title" onClose={closeCelebration} onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
-      <div className="cheer-card">
+    <dialog ref={dialog} className="cheer-dialog cheer-flight" aria-labelledby="cheer-title" onClose={closeCelebration}>
+      <div ref={celebrationHost} className="cheer-flight-scene" />
         <button className="cheer-close" aria-label="关闭鼓励弹窗" onClick={() => dialog.current?.close()}>×</button>
-        <Image className="cheer-bird" src={cheerImageUrl} alt="小肥鸟举着两根荧光棒为你喝彩" width={400} height={400} />
-        <h2 id="cheer-title">{feedback}</h2>
+        <h2 id="cheer-title" className="sr-only">{feedback}</h2>
 
         <button className={`cheer-like ${liked ? "is-liked" : ""}`} aria-label={liked ? "已点赞" : "点赞"} aria-pressed={liked} disabled={liked} onClick={likeCelebration}>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10v11H4V10h4Zm0 1 5-8c2-1 3 1 2.5 3L15 9h4a2 2 0 0 1 2 2l-1.4 8a2 2 0 0 1-2 2H8" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" /></svg>
           <span className="like-burst" aria-hidden="true">✦</span>
         </button>
-      </div>
     </dialog>
   </main>;
 }
